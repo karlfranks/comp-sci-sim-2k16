@@ -1,0 +1,72 @@
+<assignments>
+  <assignment>
+    <title></title>
+    <description></description>
+    <design></design>
+    <coding></coding>
+    <testing></testing>
+    <documentation></documentation>
+  </assignment>
+
+  <assignment>
+    <title>CS10120: Software Development</title>
+    <description></description>
+    <design></design>
+    <coding></coding>
+    <testing></testing>
+    <documentation></documentation>
+  </assignment>
+
+  <assignment>
+    <title>Web Development</title>
+    <description></description>
+    <design></design>
+    <coding></coding>
+    <testing></testing>
+    <documentation></documentation>
+  </assignment>
+
+  <assignment>
+    <title>Group Project</title>
+    <description>The second year Software Development Lifecycle group project.</description>
+    <!-- No attributes: not a playable assignment, the player will
+    choose a role and that will increase their level in the associated skill-->
+  </assignment>
+
+  <assignment>
+    <title>Data Structures and Algorithms</title>
+    <description></description>
+    <design></design>
+    <coding></coding>
+    <testing></testing>
+    <documentation></documentation>
+  </assignment>
+
+  <assignment>
+    <title>Modelling Persistent Data</title>
+    <description></description>
+    <design></design>
+    <coding></coding>
+    <testing></testing>
+    <documentation></documentation>
+  </assignment>
+
+  <assignment>
+    <title>SE31520: Web-Based Applications</title>
+    <description></description>
+    <design></design>
+    <coding></coding>
+    <testing></testing>
+    <documentation></documentation>
+  </assignment>
+
+  <assignment>
+    <title>Major Project</title>
+    <description>The third year major project. The piece of work your
+    time at uni has been leading up to.</description>
+    <design></design>
+    <coding></coding>
+    <testing></testing>
+    <documentation></documentation>
+  </assignment>
+</assignments>

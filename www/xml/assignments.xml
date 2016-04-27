@@ -60,7 +60,7 @@
   <assignment>
     <assignment_num>6</assignment_num>
     <title>SE31520: Web-Based Applications</title>
-    <description>you loyal</description>
+    <description>You will development a web application using the Ruby on Rails language.</description>
     <design>25</design>
     <coding>15</coding>
     <testing>30</testing>
@@ -70,11 +70,13 @@
   <assignment>
     <assignment_num>7</assignment_num>
     <title>Major Project</title>
-    <description>The third year major project. The piece of work your time at uni has been leading up to.</description>
-    <design>25</design>
-    <coding>25</coding>
-    <testing>25</testing>
-    <documentation>25</documentation>
+    <description>The third year major project. The piece of work your time at uni has been leading up to.
+    You will spend roughly four months working on project. You will develop a piece of software, carry out a demonstation
+    and submit a 20,000 report documenting your project as a whole.</description>
+    <design>20</design>
+    <coding>30</coding>
+    <testing>20</testing>
+    <documentation>30</documentation>
   </assignment>
 
 </assignments>

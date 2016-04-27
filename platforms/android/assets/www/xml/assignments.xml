@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<assignments>
+  <!--<assignment>
+    <title></title>
+    <description></description>
+    <design></design>
+    <coding></coding>
+    <testing></testing>
+    <documentation></documentation>
+  </assignment>-->
+
+  <assignment>
+    <assignment_num>1</assignment_num>
+    <title>CS10120: Software Development</title>
+    <description>this is a test description</description>
+    <design>25</design>
+    <coding>25</coding>
+    <testing>25</testing>
+    <documentation>25</documentation>
+  </assignment>
+
+  <assignment>
+    <assignment_num>2</assignment_num>
+    <title>Web Development</title>
+    <description>this is another test description</description>
+    <design>20</design>
+    <coding>40</coding>
+    <testing>10</testing>
+    <documentation>30</documentation>
+  </assignment>
+
+  <assignment>
+    <assignment_num>3</assignment_num>
+    <title>Group Project</title>
+    <description>The second year Software Development Lifecycle group project.</description>
+    <!-- No attributes: not a playable assignment, the player will
+    choose a role and that will increase their level in the associated skill-->
+  </assignment>
+
+  <assignment>
+    <assignment_num>4</assignment_num>
+    <title>Data Structures and Algorithms</title>
+    <description>another one.</description>
+    <design>20</design>
+    <coding>20</coding>
+    <testing>20</testing>
+    <documentation>40</documentation>
+  </assignment>
+
+  <assignment>
+    <assignment_num>5</assignment_num>
+    <title>Modelling Persistent Data</title>
+    <description>you smaht</description>
+    <design>25</design>
+    <coding>25</coding>
+    <testing>25</testing>
+    <documentation>25</documentation>
+  </assignment>
+
+  <assignment>
+    <assignment_num>6</assignment_num>
+    <title>SE31520: Web-Based Applications</title>
+    <description>you loyal</description>
+    <design>25</design>
+    <coding>15</coding>
+    <testing>30</testing>
+    <documentation>30</documentation>
+  </assignment>
+
+  <assignment>
+    <assignment_num>7</assignment_num>
+    <title>Major Project</title>
+    <description>The third year major project. The piece of work your time at uni has been leading up to.</description>
+    <design>25</design>
+    <coding>25</coding>
+    <testing>25</testing>
+    <documentation>25</documentation>
+  </assignment>
+
+</assignments>

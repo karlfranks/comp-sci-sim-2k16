@@ -1,28 +1,28 @@
 <?xml version="1.0"?>
 <assignments>
-  <!--<assignment>
-    <title></title>
-    <description></description>
-    <design></design>
-    <coding></coding>
-    <testing></testing>
-    <documentation></documentation>
-  </assignment>-->
 
   <assignment>
     <assignment_num>1</assignment_num>
-    <title>CS10120: Software Development</title>
-    <description>this is a test description</description>
-    <design>25</design>
-    <coding>25</coding>
-    <testing>25</testing>
-    <documentation>25</documentation>
+    <title>Concepts In Programming</title>
+    <description>Your first university assignment.</description>
+    <description>this is the second line</description>
+    <description>this is the third</description>
+    <description>this is the last</description>
+    <description>tkjafahk</description>
+    <design>20</design>
+    <coding>35</coding>
+    <testing>20</testing>
+    <documentation>30</documentation>
   </assignment>
 
   <assignment>
     <assignment_num>2</assignment_num>
     <title>Web Development</title>
-    <description>this is another test description</description>
+    <description>This assignment will involve creating a website of the</description>
+    <description>lecturer's choice: you will all develop the same idea.</description>
+    <description>third line</description>
+    <description>fourth line</description>
+    <description>adgsfhgf</description>
     <design>20</design>
     <coding>40</coding>
     <testing>10</testing>
@@ -31,16 +31,26 @@
 
   <assignment>
     <assignment_num>3</assignment_num>
-    <title>Group Project</title>
-    <description>The second year Software Development Lifecycle group project.</description>
-    <!-- No attributes: not a playable assignment, the player will
-    choose a role and that will increase their level in the associated skill-->
+    <title>The Software Development Life Cycle</title>
+    <description>The second year group project.</description>
+    <description>You will develop a piece of software, website and it will</description>
+    <description>communicate with a backend database of your design.</description>
+    <description>You will be involved a variety of roles.</description>
+    <description>Therefore, take care balancing your attributes.</description>
+    <design>25</design>
+    <coding>25</coding>
+    <testing>25</testing>
+    <documentation>25</documentation>
   </assignment>
 
   <assignment>
     <assignment_num>4</assignment_num>
     <title>Data Structures and Algorithms</title>
-    <description>another one.</description>
+    <description>test line one</description>
+    <description>line two</description>
+    <description>line three</description>
+    <description>line four</description>
+    <description>adsfhgf</description>
     <design>20</design>
     <coding>20</coding>
     <testing>20</testing>
@@ -50,7 +60,11 @@
   <assignment>
     <assignment_num>5</assignment_num>
     <title>Modelling Persistent Data</title>
-    <description>you smaht</description>
+    <description>line one</description>
+    <description>line two</description>
+    <description>line three</description>
+    <description>line four</description>
+    <description>fasfhg</description>
     <design>25</design>
     <coding>25</coding>
     <testing>25</testing>
@@ -61,6 +75,10 @@
     <assignment_num>6</assignment_num>
     <title>SE31520: Web-Based Applications</title>
     <description>You will development a web application using the Ruby on Rails language.</description>
+    <description>line two</description>
+    <description>line three</description>
+    <description>line four</description>
+    <description>fadsfh</description>
     <design>25</design>
     <coding>15</coding>
     <testing>30</testing>
@@ -70,9 +88,11 @@
   <assignment>
     <assignment_num>7</assignment_num>
     <title>Major Project</title>
-    <description>The third year major project. The piece of work your time at uni has been leading up to.
-    You will spend roughly four months working on project. You will develop a piece of software, carry out a demonstation
-    and submit a 20,000 report documenting your project as a whole.</description>
+    <description>The third year major project.</description>
+    <description>The piece of work your time at uni has been leading up to.</description>
+    <description>You will spend roughly four months working on a project.</description>
+    <description>You will develop a piece of software, carry out a demonstration and</description>
+    <description>submit a 20,000 report documenting your project as a whole.</description>
     <design>20</design>
     <coding>30</coding>
     <testing>20</testing>

@@ -1,31 +1,23 @@
-//VARIABLES
-canvas=document.getElementById("gamebox");
+//GLOBAL VARIABLES
+canvas=document.getElementById("gamebox"); //Setup canvas
 context=canvas.getContext("2d");
-context.fillStyle="#F58C5E";
-context.fillRect(0, 0, 1905, 985);
-canvas.addEventListener("touchstart", getPosition, false);
-canvas.addEventListener("touchmove", getTouchMove, false);
+canvas.addEventListener("touchstart", getPosition, false); //Capture initial touches
+canvas.addEventListener("touchmove", getTouchMove, false); //Capture moving touches (for the sliders)
 
-//var canvasswitch = true;
-var assignment = 0;
-var title, design, coding, testing, documentation;
-var description_1, description_2, description_3, description_4, description_5;
-var xmlDoc;
+var assignment = 0; //Keep track of current assignment
+var title, design, coding, testing, documentation; //holds assignment information from XML document
+var description_1, description_2, description_3, description_4, description_5; //holds the assignment description
+var xmlDoc; //
 
-
-var touches = [];
-var scores = [];
-var assignment_names = [];
-var music = true;
-var sounds = true;
-var pause = false;
-
-
+//Player data
+var touches = []; //Array used to capture moving touch events
+var scores = []; //Stores player's scores
+var assignment_names = []; //stores names of completed assignments for easier retrieval for scores screen
+var final_score; //The player's final score if they complete the game
 var design_points = 0;
 var coding_points = 0;
 var testing_points = 0;
 var documentation_points = 0;
-
 var design_score;
 var coding_score;
 var testing_score;
@@ -53,12 +45,9 @@ var testing_slider_x = 1200;
 var documentation_slider_x = 1200;
 var slider_max = 1720;
 var slider_min = 1200;
-var design_slider_percent;
-var coding_slider_percent;
-var testing_slider_percent;
-var documentation_slider_percent;
+var design_slider_percent, coding_slider_percent, testing_slider_percent, documentation_slider_percent;
 var points_left = 250;
-var blink = true;
+
 
 //IMAGES
 var menu_img=new Image(); //Menu background
@@ -85,15 +74,22 @@ var frame_2=new Image();
 frame_2.src="img/frame2.gif";
 var frame_3=new Image();
 frame_3.src="img/frame3.gif";
+var graduation=new Image();
+graduation.src="img/graduation.png";
 
-//BOOLEAN VARIABLES TO CONTROL ASPECTS OF GAME
-var gameover;
-var menuview;
-var gameplay;
-var assignment_menu;
-var score_screen;
-var game_complete_screen;
-var game_over_screen;
+//Boolean variables to control various aspects of the game
+var gameover = false; //Indicate the game is over for the player
+var menuview; //Indicate game is on the title screen menu
+var gameplay; //Indicate the main gameplay is running
+var assignment_menu; //Indicate game is in the assignment menu (ie attribute sliders)
+var score_screen; //Indicate game is on the score screen
+var game_complete_screen; //Indicate game is on the game complete screen
+var game_over_screen; //Indicate game is on the game over screen
+var confirm_exit = false; //Control display of the exit confirmation buttons
+var music = true; //Control if music is playing
+var sounds = true; //Control if sound effects will play
+var pause = false; //Control if game paused
+var blink = true; //Used to control the blinking "cursor" on the menu screen
 
 
 //Handle touch input
@@ -119,17 +115,49 @@ function getPosition(event){
     }
   }
   else if(gameplay == true){
-    if(touch_x>1550 && touch_x<1600 && touch_y>900 && touch_y<950){
-      clearInterval(game_animation);
+    if(touch_x>1550 && touch_x<1600 && touch_y>900 && touch_y<950 && confirm_exit==false){
+      //EXIT BUTTON
+      confirm_exit = true;
+      //pause = true;
+
       clearInterval(game_timer);
       clearInterval(design_timer);
       clearInterval(coding_timer);
       clearInterval(testing_timer);
       clearInterval(documentation_timer);
-      menu();
+    }
+    else if(confirm_exit==true){
+      //CHECK TO CONFIRM EXIT
+      if(touch_x>1470 && touch_x<1570 && touch_y>845 && touch_y<885){
+        //UN-PAUSE GAME
+        confirm_exit = false;
+        pause = false;
+
+        game_timer = setInterval(assignment_timer, 100);
+
+        var random = (Math.floor((Math.random() * 4) + 1))*5000;
+        design_timer = setInterval(design_points_timer, random);
+
+        random = (Math.floor((Math.random() * 4) + 1))*500;
+        coding_timer = setInterval(coding_points_timer, random);
+
+        random = (Math.floor((Math.random() * 4) + 1))*500;
+        testing_timer = setInterval(testing_points_timer, random);
+
+        random = (Math.floor((Math.random() * 4) + 1))*500;
+        documentation_timer = setInterval(documentation_points_timer, random);
+      }
+      else if(touch_x>1590 && touch_x<1690 && touch_y>845 && touch_y<885){
+        //EXIT TO MENU
+        clearInterval(game_animation);
+        confirm_exit = false;
+        menu();
+      }
     }
     else if(touch_x>1630 && touch_x<1680 && touch_y>900 && touch_y<950){
+      //CHECK PAUSE BUTTON
       if(pause==true){
+        //UN-PAUSE GAME
         game_timer = setInterval(assignment_timer, 100);
 
         var random = (Math.floor((Math.random() * 4) + 1))*5000;
@@ -147,6 +175,7 @@ function getPosition(event){
         pause = false;
       }
       else{
+        //PAUSE GAME
         clearInterval(game_timer);
         clearInterval(design_timer);
         clearInterval(coding_timer);
@@ -156,6 +185,7 @@ function getPosition(event){
       }
     }
     else if(touch_x>1710 && touch_x<1760 && touch_y>900 && touch_y<950){
+      //CHECK MUSIC BUTTON
       if(music==true){
         music = false;
       }
@@ -164,6 +194,7 @@ function getPosition(event){
       }
     }
     else if(touch_x>1780 && touch_x<1830 && touch_y>900 && touch_y<950){
+      //CHECk SOUNDS BUTTON
       if(sounds==true){
         sounds = false;
       }
@@ -174,7 +205,6 @@ function getPosition(event){
 
   }
   else if(score_screen==true){
-    //assignments_screen();
     if(touch_x>600 && touch_x<1300 && touch_y>500 && touch_y<620){
       assignments_screen();
     }
@@ -282,7 +312,6 @@ function menu(){
   //Background
   context.fillStyle="#404040";
   context.fillRect(0, 0, 1905, 985);
-  //context.drawImage(menu_img,100,0);
 
   context.fillStyle="#0EE81C";
   var menu_text=":/COMP SCI SIMULATOR 2016";
@@ -335,45 +364,33 @@ function assignments_screen(){
   xmlDoc = xhttp.responseXML;
 
   if(xhttp.readyState == 4){
+    //Parse XML input
     x = xmlDoc.getElementsByTagName("assignment");
     var node_to_get = assignment - 1;
     y = x[node_to_get];
 
-    if(y.childNodes[1].firstChild.nodeValue != 3){
-      title = y.childNodes[3].firstChild.nodeValue;
-      description_1 = y.childNodes[5].firstChild.nodeValue;
-      description_2 = y.childNodes[7].firstChild.nodeValue;
-      description_3 = y.childNodes[9].firstChild.nodeValue;
-      description_4 = y.childNodes[11].firstChild.nodeValue;
-      description_5 = y.childNodes[13].firstChild.nodeValue;
+    title = y.childNodes[3].firstChild.nodeValue;
+    description_1 = y.childNodes[5].firstChild.nodeValue;
+    description_2 = y.childNodes[7].firstChild.nodeValue;
+    description_3 = y.childNodes[9].firstChild.nodeValue;
+    description_4 = y.childNodes[11].firstChild.nodeValue;
+    description_5 = y.childNodes[13].firstChild.nodeValue;
+    design = y.childNodes[15].firstChild.nodeValue;
+    coding = y.childNodes[17].firstChild.nodeValue;
+    testing = y.childNodes[19].firstChild.nodeValue;
+    documentation = y.childNodes[21].firstChild.nodeValue;
 
-      design = y.childNodes[15].firstChild.nodeValue;
-      coding = y.childNodes[17].firstChild.nodeValue;
-      testing = y.childNodes[19].firstChild.nodeValue;
-      documentation = y.childNodes[21].firstChild.nodeValue;
-    }
-    else{
-      title = y.childNodes[3].firstChild.nodeValue;
-      description_1 = y.childNodes[5].firstChild.nodeValue;
-      description_2 = y.childNodes[7].firstChild.nodeValue;
-      description_3 = y.childNodes[9].firstChild.nodeValue;
-      description_4 = y.childNodes[11].firstChild.nodeValue;
-      description_5 = y.childNodes[13].firstChild.nodeValue;
-    }
   }
 
-  assignment_names[(assignment - 1)] = title;
+  assignment_names[(assignment - 1)] = title; //Store assignment in array for future retrieval
 
-  // design_slider_percent = 0;
-  // coding_slider_percent = 0;
-  // testing_slider_percent = 0;
-  // documentation_slider_percent = 0;
-
+  //Make sure sliders are set to initial position
   design_slider_x = 1200;
   coding_slider_x = 1200;
   testing_slider_x = 1200;
   documentation_slider_x = 1200;
 
+  //Start animation for page - to handle sliding, etc
   clearInterval(assignment_menu_animation);
   assignment_menu_animation = setInterval(draw_assignments_screen, 30);
 }
@@ -390,17 +407,21 @@ function assignment_run(){
   assignment_menu = false;
   pause = false;
 
+  //Reset attribute points displayed
   design_points = 0;
   coding_points = 0;
   testing_points = 0;
   documentation_points = 0;
 
+  //Start animation for page
   clearInterval(game_animation);
   game_animation = setInterval(draw_game_screen, 30);
 
+  //
   clearInterval(game_timer);
   game_timer = setInterval(assignment_timer, 100);
 
+  //Start timers for the separate attributes
   clearInterval(design_timer);
   var random = (Math.floor((Math.random() * 4) + 1))*500;
   design_timer = setInterval(design_points_timer, random);
@@ -430,8 +451,8 @@ function assignment_timer(){
     clearInterval(documentation_timer);
     calculate_score();
 
-
     if(assignment==2){
+      //If failed both Year One assignments, game over
       var first = scores[0];
       var second = scores[1];
 
@@ -439,37 +460,58 @@ function assignment_timer(){
         gameover = true;
       }
     }
-    else if(assignment==5){
-      var first = scores[2];
-      var second = scores[3];
-      var third = scores[4];
+    else if(assignment>2 && assignment<7){
+      //Need to pass at least one to move onto Year Three
+      // var first = scores[2];
+      // var second = scores[3];
+      // var third = scores[4];
+      //
+      // if(first<40 && second<40 && third<40){
+      //   gameover = true;
+      // }
 
-      if(first<40 && second<40 && third<40){
-        gameover = true;
-      }
-    }
-    else if(assignment==7){
-      var scores_length = scores.length - 1;
       var temp_array = [];
-      for (i = 2; i < scores_length; i++) {
+      for (i = 2; i < scores.length; i++) {
           var j = temp_array.length;
-          temp_array[j] = scores[i];
+
+          if(scores[i]<40){
+            temp_array[j] = scores[i];
+          }
       }
 
       if(temp_array.length > 2){
         gameover=true;
       }
+    }
+    else if(assignment==7){
+      var temp_array = [];
+      for (i = 2; i < scores.length; i++) {
+          var j = temp_array.length;
+
+          if(scores[i]<40){
+            temp_array[j] = scores[i];
+          }
+      }
+
+      calculate_final_score();
+      if(temp_array.length > 2){
+        gameover=true;
+      }
+      else{
+        if(final_score<40){
+          gameover=true;
+        }
+      }
 
     }
 
-    if(assignment==7 && gameover==false){
-      //display game complete
-      game_complete();
-    }
-    else if(gameover==true){
+    if(gameover==true){
       game_over();
     }
-    else{
+    else if(gameover==false && assignment==7){
+      game_complete();
+    }
+    else if(gameover==false && assignment<7){
       display_scores();
     }
   }
@@ -481,68 +523,10 @@ function assignment_timer(){
 
 }
 
-function design_points_timer(){
-  var random = Math.floor((Math.random() * 100) + 1);
 
-  var design_percent = (design_slider_percent / 250) * 100;
-
-  if (design_percent >= random){
-    design_points = design_points + 1;
-  }
-
-  clearInterval(design_timer);
-  var random = (Math.floor((Math.random() * 4) + 1))*500;
-  design_timer = setInterval(design_points_timer, random);
-}
-
-function coding_points_timer(){
-  var random = Math.floor((Math.random() * 100) + 1);
-
-  var coding_percent = (coding_slider_percent / 250) * 100;
-
-  if (coding_percent >= random){
-    coding_points = coding_points + 1;
-  }
-
-  clearInterval(coding_timer);
-  var random = (Math.floor((Math.random() * 4) + 1))*500;
-  coding_timer = setInterval(coding_points_timer, random);
-}
-
-function testing_points_timer(){
-  var random = Math.floor((Math.random() * 100) + 1);
-
-  var testing_percent = (testing_slider_percent / 250) * 100;
-
-  if (testing_percent >= random){
-    testing_points = testing_points + 1;
-  }
-
-  clearInterval(testing_timer);
-  var random = (Math.floor((Math.random() * 4) + 1))*500;
-  testing_timer = setInterval(testing_points_timer, random);
-}
-
-function documentation_points_timer(){
-  var random = Math.floor((Math.random() * 100) + 1);
-
-  var documentation_percent = (documentation_slider_percent / 250) * 100;
-
-  if (documentation_percent >= random){
-    documentation_points = documentation_points + 1;
-  }
-
-  clearInterval(documentation_timer);
-  var random = (Math.floor((Math.random() * 4) + 1))*500;
-  documentation_timer = setInterval(documentation_points_timer, random);
-}
 
 function display_scores(){
-  //gameover = false;
-  // menuview = false;
-  // gameplay = false;
-  // assignment_menu = false;
-  // pause = false;
+  gameplay = false;
   score_screen = true;
 
   context.globalAlpha=0.5;
@@ -562,7 +546,6 @@ function display_scores(){
 
   context.fillStyle="#97DBF0";
   context.fillRect(600, 500, 700, 120);
-  //context.fillStyle="#0EE81C";
   context.fillStyle="#2F2F30";
   var button_text="NEXT ASSIGNMENT";
   context.font="bold 70px Arial";
@@ -571,12 +554,7 @@ function display_scores(){
 }
 
 function game_over(){
-  //gameover = false;
-  //menuview = false;
   gameplay = false;
-  //assignment_menu = false;
-  //pause = false;
-  //score_screen = false;
   game_over_screen = true;
 
   canvas.width=canvas.width;
@@ -588,15 +566,25 @@ function game_over(){
   context.font="bold 100px Arial";
   fill_text="GAME OVER";
   context.fillText(fill_text, 200, 200);
+
+  if(assignment==7){
+    context.font="bold 50px Arial";
+    fill_text="Final Score: " +final_score;
+    context.fillText(fill_text, 850, 400);
+    fill_text="Final Grade: " +grade;
+    context.fillText(fill_text, 850, 460);
+  }
+
+  print_grades();
+
+  context.font="bold 50px Arial";
+  fill_text="Tap screen to return to menu to retry";
+  context.fillText(fill_text, 850, 200);
+
 }
 
 function game_complete(){
-  //gameover = false;
-  //menuview = false;
   gameplay = false;
-  //assignment_menu = false;
-  //pause = false;
-  //score_screen = false;
   game_complete_screen = true;
 
   canvas.width=canvas.width;
@@ -604,202 +592,104 @@ function game_complete(){
   context.fillStyle="#E2FFCF";
   context.fillRect(0, 0, 1905, 985);
 
+  context.globalAlpha=0.4;
+  context.drawImage(graduation, 365, 115);
+  context.globalAlpha=1;
+
   context.fillStyle="#2F2F30";
   context.font="bold 100px Arial";
-  fill_text="GAME COMPLETE";
+  fill_text="GAME COMPLETE. You graduated!";
   context.fillText(fill_text, 200, 200);
+
+  print_grades();
+
+  context.font="bold 50px Arial";
+  fill_text="Final Score: " +final_score;
+  context.fillText(fill_text, 850, 400);
+  fill_text="Final Grade: " +grade;
+  context.fillText(fill_text, 850, 460);
+
+  context.font="bold 50px Arial";
+  fill_text="Tap screen to return to menu";
+  context.fillText(fill_text, 850, 260);
 }
 
-function calculate_score(){
-  var difference;
-  var total_points = design_points + coding_points + testing_points + documentation_points;
+function print_grades(){
+  context.font="bold 20px Arial";
+  var y = 200;
+  for (i=0; i<scores.length; i++){
+    var temp_score = scores[i];
+    var temp_grade;
+    var plus = 30 * (i+1);
+    if(temp_score>=70){
+      temp_grade ="1";
+    }
+    else if(temp_score>=60){
+      temp_grade = "2:1";
+    }
+    else if(temp_score>=50){
+      temp_grade = "2:2";
+    }
+    else if(temp_score>=40){
+      temp_grade = "3";
+    }
+    else{
+      temp_grade = "Fail";
+    }
 
+    fill_text=assignment_names[i];
+    context.fillText(fill_text, 200, (y+plus));
+    fill_text="Score: " +temp_score;
+    context.fillText(fill_text, 200, ((y+30)+plus));
+    fill_text="Grade: " +temp_grade;
+    context.fillText(fill_text, 200, ((y+60)+plus));
 
-  //calculate design score
-  if(design>=parseInt(((design_points/total_points)*100))){
-    difference = design - parseInt(((design_points/total_points)*100));
+    y = y + 70;
+
+  }
+
+}
+
+function calculate_final_score(){
+  var best_3;
+  var worst_3;
+  var best_2_1;
+  var best_2_2;
+  var worst_2;
+
+  if(scores[6] > scores[5]){
+    best_3 = scores[6];
+    worst_3 = scores[5];
   }
   else{
-    difference = parseInt(((design_points/total_points)*100)) - design;
+    best_3 = scores[5];
+    worst_3 = scores[6];
   }
 
-  if(difference==0){
-    design_score = 25;
-  }
-  else if(difference>1 && difference<6){
-    design_score = 23;
-  }
-  else if(difference>5 && difference<11){
-    design_score = 15;
-  }
-  else if(difference>10 && difference<21){
-    design_score = 13;
-  }
-  else if(difference>20 && difference<41){
-    design_score = 11;
-  }
-  else if(difference>40 && difference<61){
-    design_score = 8;
-  }
-  else{
-    design_score = 5;
+  var temp_array = [scores[2], scores[3], scores[4]];
+  var k;
+  var temp_val;
+  for (i = 0; i < 2; i++) {
+    for (j = 0; j < 2; j++) {
+      k = j+1;
+      if(temp_array[j]>temp_array[k]){
+        temp_val = temp_array[k];
+        temp_array[k] = temp_array[j];
+        temp_array[j] = temp_val;
+      }
+    }
   }
 
-  if(design_points<4){
-    design_score = parseInt(design_score*0.6);
-  }
-  else if(design_points<10 && design_points>3){
-    design_score = parseInt(design_score*0.9);
-  }
+  best_2_1 = temp_array[2];
+  best_2_2 = temp_array[1];
+  worst_2 = temp_array[0];
 
-  if(design_points==0){
-    design_score = 0;
-  }
+  best_3 = best_3 *3;
+  worst_3 = worst_3 * 2;
+  best_2_1 = best_2_1 * 2;
+  best_2_2 = best_2_2 * 2;
 
-  //calcuate coding score
-  if(coding>=parseInt(((coding_points/total_points)*100))){
-    difference = coding - parseInt(((coding_points/total_points)*100));
-  }
-  else{
-    difference = parseInt(((coding_points/total_points)*100)) - coding;
-  }
-
-  if(difference==0){
-    coding_score = 25;
-  }
-  else if(difference>1 && difference<6){
-    coding_score = 23;
-  }
-  else if(difference>5 && difference<11){
-    coding_score = 15;
-  }
-  else if(difference>10 && difference<21){
-    coding_score = 13;
-  }
-  else if(difference>20 && difference<41){
-    coding_score = 11;
-  }
-  else if(difference>40 && difference<61){
-    coding_score = 8;
-  }
-  else{
-    coding_score = 5;
-  }
-
-  if(coding_points<4){
-    coding_score = parseInt(coding_score*0.6);
-  }
-  else if(coding_points<10 && coding_points>3){
-    coding_score = parseInt(coding_score*0.9);
-  }
-
-  if(coding_points==0){
-    coding_score = 0;
-  }
-
-  //calculate testing score
-  if(testing>=parseInt(((testing_points/total_points)*100))){
-    difference = testing - parseInt(((testing_points/total_points)*100));
-  }
-  else{
-    difference = parseInt(((testing_points/total_points)*100)) - testing;
-  }
-
-  if(difference==0){
-    testing_score = 25;
-  }
-  else if(difference>1 && difference<6){
-    testing_score = 23;
-  }
-  else if(difference>5 && difference<11){
-    testing_score = 15;
-  }
-  else if(difference>10 && difference<21){
-    testing_score = 13;
-  }
-  else if(difference>20 && difference<41){
-    testing_score = 11;
-  }
-  else if(difference>40 && difference<61){
-    testing_score = 8;
-  }
-  else{
-    testing_score = 5;
-  }
-
-  if(testing_points<4){
-    testing_score = parseInt(testing_score*0.6);
-  }
-  else if(testing_points<10 && testing_points>3){
-    testing_score = parseInt(testing_score*0.9);
-  }
-
-  if(testing_points==0){
-    testing_score = 0;
-  }
-
-
-  //calculate documentation score
-  if(documentation>=parseInt(((documentation_points/total_points)*100))){
-    difference = documentation - parseInt(((documentation_points/total_points)*100));
-  }
-  else{
-    difference = parseInt(((documentation_points/total_points)*100)) - documentation;
-  }
-
-  if(difference==0){
-    documentation_score = 25;
-  }
-  else if(difference>1 && difference<6){
-    documentation_score = 23;
-  }
-  else if(difference>5 && difference<11){
-    documentation_score = 13;
-  }
-  else if(difference>10 && difference<21){
-    documentation_score = 13;
-  }
-  else if(difference>20 && difference<41){
-    documentation_score = 11;
-  }
-  else if(difference>40 && difference<61){
-    documentation_score = 8;
-  }
-  else{
-    documentation_score = 5;
-  }
-
-  if(documentation_points<4){
-    documentation_score = parseInt(documentation_score*0.6);
-  }
-  else if(documentation_points<10 && documentation_points>3){
-    documentation_score = parseInt(documentation_score*0.9);
-  }
-
-  if(documentation_points==0){
-    documentation_score = 0;
-  }
-
-  //calculate total score
-  total_score = design_score + coding_score + testing_score + documentation_score;
-
-  if(total_score>=70){
-    grade ="1";
-  }
-  else if(total_score>=60){
-    grade = "2:1";
-  }
-  else if(total_score>=50){
-    grade = "2:2";
-  }
-  else if(total_score>=40){
-    grade = "3";
-  }
-  else{
-    grade = "Fail";
-  }
-
-  scores[assignment - 1] = total_score;
+  final_score = parseInt((best_3 + worst_3 + best_2_2 + best_2_1 + worst_2)/10);
 
 }
 
@@ -819,18 +709,18 @@ function draw_game_screen(){
   }
 
   if(player_timer==1){
-    context.drawImage(frame_1, 800, 500);
+    context.drawImage(frame_1, 800, 350);
   }
   else if(player_timer==2){
-    context.drawImage(frame_2, 800, 500);
+    context.drawImage(frame_2, 800, 350);
   }
   else if(player_timer==3){
-    context.drawImage(frame_3, 800, 500);
+    context.drawImage(frame_3, 800, 350);
   }
 
   //assignment info
   context.fillStyle="#57CBD4";
-  context.fillRect(90, 670, 600, 210);
+  context.fillRect(90, 670, 680, 200);
   context.fillStyle="#2F2F30";
   context.font="bold italic 20px Arial";
   fill_text="ASSIGNMENT DETAILS:";
@@ -840,7 +730,7 @@ function draw_game_screen(){
     fill_text="Year One";
   }
   else if(assignment==3 || assignment==4 || assignment==5){
-    fill_text=="Year Two";
+    fill_text="Year Two";
   }
   else{
     fill_text="Year Three";
@@ -964,6 +854,27 @@ function draw_game_screen(){
   fill_text="DOCUMENTATION";
   context.fillText(fill_text, 1160, 300);
 
+  if(confirm_exit==true){
+    context.fillStyle="#FFE08A";
+    context.fillRect(1450, 800, 260, 95);
+    fill_text = "Confirm Exit?";
+    context.fillStyle="#2F2F30";
+    context.font="bold 20px Arial";
+    context.fillText(fill_text, 1520, 825);
+
+    context.fillStyle="#FF6B7F";
+    context.fillRect(1470, 845, 100, 40);
+    context.fillStyle="#2F2F30";
+    fill_text = "No";
+    context.fillText(fill_text, 1505, 870);
+
+    context.fillStyle="#E2FFCF";
+    context.fillRect(1590, 845, 100, 40);
+    context.fillStyle="#2F2F30";
+    fill_text = "Yes";
+    context.fillText(fill_text, 1625, 870);
+  }
+
 }
 
 function draw_assignments_screen(){
@@ -976,7 +887,7 @@ function draw_assignments_screen(){
   //SLIDERS
   context.fillStyle="#2F2F30";
   context.font="bold 30px Arial";
-  var fill_text="ATTRIBUTES            Points left to assign: " +points_left;
+  var fill_text="ATTRIBUTES              Points left to assign: " +points_left;
   context.fillText(fill_text, 1160, 30);
 
   var slider_text;
@@ -1031,7 +942,7 @@ function draw_assignments_screen(){
 
   //assignment info
   context.fillStyle="#E6BD4C";
-  context.fillRect(40, 70, 1100, 280);
+  context.fillRect(40, 70, 840, 280);
 
   context.fillStyle="#2F2F30";
   context.font="bold italic 40px Arial";
@@ -1040,16 +951,16 @@ function draw_assignments_screen(){
 
   context.font="25px Arial";
   if(assignment==1){
-    fill_text="Welcome to your first year. Pass at least one assignment to proceed to Year Two.";
+    fill_text="Year One. Pass at least one assignment to proceed to Year Two.";
   }
   else if(assignment==2){
     fill_text="Year One";
   }
   else if(assignment==3){
-    fill_text="Welcome to Year Two. From now on out, you can only fail 2 assignments before it's Game Over.";
+    fill_text="Year Two. From now, you can only fail 2 assignments before Game Over.";
   }
   else if(assignment==4 || assignment==5){
-    fill_text=="Year Two";
+    fill_text="Year Two";
   }
   else{
     fill_text="Year Three";
@@ -1080,9 +991,242 @@ function draw_assignments_screen(){
   context.font="bold 45px Arial";
   fill_text="Select how you will balance your time and effort ->";
   context.fillText(fill_text, 75, 600);
-  // fill_text="balance your time and effort";
-  // context.fillText(fill_text, 200, 555);
-  // context.font="bold 70px Arial";
-  // fill_text="->";
-  // context.fillText(fill_text, 400, 700);
+
+}
+
+function design_points_timer(){
+  var random = Math.floor((Math.random() * 100) + 1);
+
+  var design_percent = (design_slider_percent / 250) * 100;
+
+  if (design_percent >= random){
+    design_points = design_points + 1;
+  }
+
+  clearInterval(design_timer);
+  var random = (Math.floor((Math.random() * 4) + 1))*500;
+  design_timer = setInterval(design_points_timer, random);
+}
+
+function coding_points_timer(){
+  var random = Math.floor((Math.random() * 100) + 1);
+
+  var coding_percent = (coding_slider_percent / 250) * 100;
+
+  if (coding_percent >= random){
+    coding_points = coding_points + 1;
+  }
+
+  clearInterval(coding_timer);
+  var random = (Math.floor((Math.random() * 4) + 1))*500;
+  coding_timer = setInterval(coding_points_timer, random);
+}
+
+function testing_points_timer(){
+  var random = Math.floor((Math.random() * 100) + 1);
+
+  var testing_percent = (testing_slider_percent / 250) * 100;
+
+  if (testing_percent >= random){
+    testing_points = testing_points + 1;
+  }
+
+  clearInterval(testing_timer);
+  var random = (Math.floor((Math.random() * 4) + 1))*500;
+  testing_timer = setInterval(testing_points_timer, random);
+}
+
+function documentation_points_timer(){
+  var random = Math.floor((Math.random() * 100) + 1);
+
+  var documentation_percent = (documentation_slider_percent / 250) * 100;
+
+  if (documentation_percent >= random){
+    documentation_points = documentation_points + 1;
+  }
+
+  clearInterval(documentation_timer);
+  var random = (Math.floor((Math.random() * 4) + 1))*500;
+  documentation_timer = setInterval(documentation_points_timer, random);
+}
+
+function calculate_score(){
+  var difference;
+  var total_points = design_points + coding_points + testing_points + documentation_points;
+
+
+  //calculate design score
+  if(design>=parseInt(((design_points/total_points)*100))){
+    difference = design - parseInt(((design_points/total_points)*100));
+  }
+  else{
+    difference = parseInt(((design_points/total_points)*100)) - design;
+  }
+
+  if(difference==0){
+    design_score = 25;
+  }
+  else if(difference>1 && difference<6){
+    design_score = 23;
+  }
+  else if(difference>5 && difference<11){
+    design_score = 20;
+  }
+  else if(difference>10 && difference<21){
+    design_score = 15;
+  }
+  else if(difference>20 && difference<41){
+    design_score = 11;
+  }
+  else if(difference>40 && difference<61){
+    design_score = 8;
+  }
+  else{
+    design_score = 5;
+  }
+
+  if(design_points<4){
+    design_score = parseInt(design_score*0.7);
+  }
+
+  if(design_points==0){
+    design_score = 0;
+  }
+
+  //calcuate coding score
+  if(coding>=parseInt(((coding_points/total_points)*100))){
+    difference = coding - parseInt(((coding_points/total_points)*100));
+  }
+  else{
+    difference = parseInt(((coding_points/total_points)*100)) - coding;
+  }
+
+  if(difference==0){
+    coding_score = 25;
+  }
+  else if(difference>1 && difference<6){
+    coding_score = 23;
+  }
+  else if(difference>5 && difference<11){
+    coding_score = 20;
+  }
+  else if(difference>10 && difference<21){
+    coding_score = 15;
+  }
+  else if(difference>20 && difference<41){
+    coding_score = 11;
+  }
+  else if(difference>40 && difference<61){
+    coding_score = 8;
+  }
+  else{
+    coding_score = 5;
+  }
+
+  if(coding_points<4){
+    coding_score = parseInt(coding_score*0.7);
+  }
+
+  if(coding_points==0){
+    coding_score = 0;
+  }
+
+  //calculate testing score
+  if(testing>=parseInt(((testing_points/total_points)*100))){
+    difference = testing - parseInt(((testing_points/total_points)*100));
+  }
+  else{
+    difference = parseInt(((testing_points/total_points)*100)) - testing;
+  }
+
+  if(difference==0){
+    testing_score = 25;
+  }
+  else if(difference>1 && difference<6){
+    testing_score = 23;
+  }
+  else if(difference>5 && difference<11){
+    testing_score = 20;
+  }
+  else if(difference>10 && difference<21){
+    testing_score = 15;
+  }
+  else if(difference>20 && difference<41){
+    testing_score = 11;
+  }
+  else if(difference>40 && difference<61){
+    testing_score = 8;
+  }
+  else{
+    testing_score = 5;
+  }
+
+  if(testing_points<4){
+    testing_score = parseInt(testing_score*0.7);
+  }
+
+  if(testing_points==0){
+    testing_score = 0;
+  }
+
+
+  //calculate documentation score
+  if(documentation>=parseInt(((documentation_points/total_points)*100))){
+    difference = documentation - parseInt(((documentation_points/total_points)*100));
+  }
+  else{
+    difference = parseInt(((documentation_points/total_points)*100)) - documentation;
+  }
+
+  if(difference==0){
+    documentation_score = 25;
+  }
+  else if(difference>1 && difference<6){
+    documentation_score = 23;
+  }
+  else if(difference>5 && difference<11){
+    documentation_score = 20;
+  }
+  else if(difference>10 && difference<21){
+    documentation_score = 15;
+  }
+  else if(difference>20 && difference<41){
+    documentation_score = 11;
+  }
+  else if(difference>40 && difference<61){
+    documentation_score = 8;
+  }
+  else{
+    documentation_score = 5;
+  }
+
+  if(documentation_points<3){
+    documentation_score = parseInt(documentation_score*0.7);
+  }
+
+  if(documentation_points==0){
+    documentation_score = 0;
+  }
+
+  //calculate total score
+  total_score = design_score + coding_score + testing_score + documentation_score;
+
+  if(total_score>=70){
+    grade ="1";
+  }
+  else if(total_score>=60){
+    grade = "2:1";
+  }
+  else if(total_score>=50){
+    grade = "2:2";
+  }
+  else if(total_score>=40){
+    grade = "3";
+  }
+  else{
+    grade = "Fail";
+  }
+
+  scores[assignment - 1] = total_score;
+
 }

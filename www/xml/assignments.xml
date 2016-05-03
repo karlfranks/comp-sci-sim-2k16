@@ -4,11 +4,11 @@
   <assignment>
     <assignment_num>1</assignment_num>
     <title>Concepts In Programming</title>
-    <description>Your first university assignment.</description>
-    <description>this is the second line</description>
-    <description>this is the third</description>
-    <description>this is the last</description>
-    <description>tkjafahk</description>
+    <description>Welcome to university! Your first assignment won't be a cakewalk, but if</description>
+    <description>you've paid attentionin your lectures and practicals it shouldn't be too</description>
+    <description>hard. You will create a basic text based game. You will need to produce</description>
+    <description>UML designs for your program, test your program works and write a short</description>
+    <description>evaluation justifying your design and evaluating your work.</description>
     <design>20</design>
     <coding>35</coding>
     <testing>20</testing>
@@ -18,11 +18,11 @@
   <assignment>
     <assignment_num>2</assignment_num>
     <title>Web Development</title>
-    <description>This assignment will involve creating a website of the</description>
-    <description>lecturer's choice: you will all develop the same idea.</description>
-    <description>third line</description>
-    <description>fourth line</description>
-    <description>adgsfhgf</description>
+    <description>This assignment will involve creating a basic website.</description>
+    <description>This website will have links to your other Web Development work, you will</description>
+    <description>write some basic JavaScript (for example displaying the current time) and</description>
+    <description>also create a HTML version of your CV.</description>
+    <description>You will additionally need to write an About page documenting your work.</description>
     <design>20</design>
     <coding>40</coding>
     <testing>10</testing>
@@ -32,11 +32,11 @@
   <assignment>
     <assignment_num>3</assignment_num>
     <title>The Software Development Life Cycle</title>
-    <description>The second year group project.</description>
-    <description>You will develop a piece of software, website and it will</description>
-    <description>communicate with a backend database of your design.</description>
-    <description>You will be involved a variety of roles.</description>
-    <description>Therefore, take care balancing your attributes.</description>
+    <description>This is the second year group project. You will be put into groups of</description>
+    <description>roughly 10 people. Together you will develop a piece of software &amp; website </description>
+    <description>which will communicate with a backend database of your design.</description>
+    <description>You will likely be involved a variety of roles (e.g. testing, writing</description>
+    <description>documentation, etc.) Therefore, take care balancing your attributes.</description>
     <design>25</design>
     <coding>25</coding>
     <testing>25</testing>
@@ -46,42 +46,42 @@
   <assignment>
     <assignment_num>4</assignment_num>
     <title>Data Structures and Algorithms</title>
-    <description>test line one</description>
-    <description>line two</description>
-    <description>line three</description>
-    <description>line four</description>
-    <description>adsfhgf</description>
+    <description>This module in real life stretches both semesters and subsequently has</description>
+    <description>two assignments. We will just cover one. You will be given a mostly</description>
+    <description>complete program to display outlines of objects in pictures. You will need</description>
+    <description>to implement the actual algorithm to finish this. There is no formal</description>
+    <description>write-up hand-in, but you will need comprehensive comments in your code.</description>
     <design>20</design>
-    <coding>20</coding>
-    <testing>20</testing>
-    <documentation>40</documentation>
+    <coding>40</coding>
+    <testing>25</testing>
+    <documentation>15</documentation>
   </assignment>
 
   <assignment>
     <assignment_num>5</assignment_num>
     <title>Modelling Persistent Data</title>
-    <description>line one</description>
-    <description>line two</description>
-    <description>line three</description>
-    <description>line four</description>
-    <description>fasfhg</description>
-    <design>25</design>
-    <coding>25</coding>
-    <testing>25</testing>
-    <documentation>25</documentation>
+    <description>This module involves handling and manipulating data, whether that be in</description>
+    <description>the form of a database, or read-in from a file.</description>
+    <description>You will be given a brief of data that needs to be stord in a database.</description>
+    <description>You will design the database, then create 3 queries to return specified</description>
+    <description>results. You will also provide a write-up justifying your design.</description>
+    <design>30</design>
+    <coding>20</coding>
+    <testing>20</testing>
+    <documentation>30</documentation>
   </assignment>
 
   <assignment>
     <assignment_num>6</assignment_num>
-    <title>SE31520: Web-Based Applications</title>
+    <title>Developing Internet-Based Applications</title>
     <description>You will development a web application using the Ruby on Rails language.</description>
-    <description>line two</description>
-    <description>line three</description>
-    <description>line four</description>
-    <description>fadsfh</description>
-    <design>25</design>
-    <coding>15</coding>
-    <testing>30</testing>
+    <description>You will need to produce automated tests to flex your system.</description>
+    <description>You will also produce a short video demonstrating your application.</description>
+    <description>Your application will take the form of a shop comparing prices from two</description>
+    <description>sources of data to allow users to always find the best deal.</description>
+    <design>20</design>
+    <coding>25</coding>
+    <testing>25</testing>
     <documentation>30</documentation>
   </assignment>
 

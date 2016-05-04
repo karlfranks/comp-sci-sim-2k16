@@ -11,8 +11,8 @@ var xmlDoc; //
 
 //Player data
 var touches = []; //Array used to capture moving touch events
-var scores = []; //Stores player's scores
-var assignment_names = []; //stores names of completed assignments for easier retrieval for scores screen
+var scores; //Stores player's scores
+var assignment_names; //stores names of completed assignments for easier retrieval for scores screen
 var final_score; //The player's final score if they complete the game
 var design_points = 0;
 var coding_points = 0;
@@ -296,13 +296,18 @@ function checkValidSlide(){
 
 //GAME MENU
 function menu(){
-  //gameover = true;
+  //make sure values are reset when return to menu
+  gameover = false;
   menuview = true;
   gameplay = false;
   assignment_menu = false;
   score_screen = false;
   game_complete_screen = false;
   game_over_screen = false;
+
+  scores = [];
+  assignment_names = [];
+  final_score = 0;
 
   assignment=0;
 
@@ -318,6 +323,7 @@ function menu(){
   context.font="bold italic 120px Arial";
   context.fillText(menu_text, 150, 200);
 
+  //Draw "cursor"
   if(blink==true){
     context.fillStyle="#0EE81C";
     context.fillRect(1710, 90, 50, 110);
@@ -337,6 +343,7 @@ function menu(){
   context.font="bold 100px Arial";
   context.fillText(button_text, 640, 600);
 
+  //Animation for blinking "cursor"
   clearInterval(menu_timer);
   menu_timer = setInterval(menu, 500);
 }
@@ -350,7 +357,6 @@ function assignments_screen(){
   }
 
   //Change game mode
-  //gameover = false;
   menuview = false;
   gameplay = false;
   assignment_menu = true;
@@ -401,7 +407,6 @@ function assignment_run(){
   timer = 300;
 
   //Change game mode
-  //gameover = false;
   menuview = false;
   gameplay = true;
   assignment_menu = false;
@@ -417,7 +422,7 @@ function assignment_run(){
   clearInterval(game_animation);
   game_animation = setInterval(draw_game_screen, 30);
 
-  //
+  //The timer for the assignment (ie to let player know how much time is left in round)
   clearInterval(game_timer);
   game_timer = setInterval(assignment_timer, 100);
 
@@ -461,15 +466,7 @@ function assignment_timer(){
       }
     }
     else if(assignment>2 && assignment<7){
-      //Need to pass at least one to move onto Year Three
-      // var first = scores[2];
-      // var second = scores[3];
-      // var third = scores[4];
-      //
-      // if(first<40 && second<40 && third<40){
-      //   gameover = true;
-      // }
-
+      //Checks if more than 2 assignments have been failed
       var temp_array = [];
       for (i = 2; i < scores.length; i++) {
           var j = temp_array.length;
@@ -484,6 +481,7 @@ function assignment_timer(){
       }
     }
     else if(assignment==7){
+      //Check if more than 2 assignments have been failed
       var temp_array = [];
       for (i = 2; i < scores.length; i++) {
           var j = temp_array.length;
@@ -493,6 +491,7 @@ function assignment_timer(){
           }
       }
 
+      //Check if final score is also grounds for failure
       calculate_final_score();
       if(temp_array.length > 2){
         gameover=true;
@@ -699,6 +698,7 @@ function draw_game_screen(){
   context.fillStyle="#FFF5D9";
   context.fillRect(0, 0, 1905, 985);
 
+  //Draw timer bar
   if(timer>0){
     context.fillStyle="#22F03A";
     context.fillRect(0, 0, (timer*6.35), 50);
@@ -708,6 +708,7 @@ function draw_game_screen(){
     context.fillText(fill_text, 50, 40);
   }
 
+  //Player gif
   if(player_timer==1){
     context.drawImage(frame_1, 800, 350);
   }
@@ -854,6 +855,7 @@ function draw_game_screen(){
   fill_text="DOCUMENTATION";
   context.fillText(fill_text, 1160, 300);
 
+  //Confirm exit buttons
   if(confirm_exit==true){
     context.fillStyle="#FFE08A";
     context.fillRect(1450, 800, 260, 95);
@@ -994,8 +996,9 @@ function draw_assignments_screen(){
 
 }
 
+//TIMERS FOR ATTRIBUTES
 function design_points_timer(){
-  var random = Math.floor((Math.random() * 100) + 1);
+  var random = Math.floor((Math.random() * 40) + 1);
 
   var design_percent = (design_slider_percent / 250) * 100;
 
@@ -1004,12 +1007,12 @@ function design_points_timer(){
   }
 
   clearInterval(design_timer);
-  var random = (Math.floor((Math.random() * 4) + 1))*500;
+  random = (Math.floor((Math.random() * 4) + 1))*500;
   design_timer = setInterval(design_points_timer, random);
 }
 
 function coding_points_timer(){
-  var random = Math.floor((Math.random() * 100) + 1);
+  var random = Math.floor((Math.random() * 40) + 1);
 
   var coding_percent = (coding_slider_percent / 250) * 100;
 
@@ -1018,12 +1021,12 @@ function coding_points_timer(){
   }
 
   clearInterval(coding_timer);
-  var random = (Math.floor((Math.random() * 4) + 1))*500;
+  random = (Math.floor((Math.random() * 4) + 1))*500;
   coding_timer = setInterval(coding_points_timer, random);
 }
 
 function testing_points_timer(){
-  var random = Math.floor((Math.random() * 100) + 1);
+  var random = Math.floor((Math.random() * 40) + 1);
 
   var testing_percent = (testing_slider_percent / 250) * 100;
 
@@ -1037,7 +1040,7 @@ function testing_points_timer(){
 }
 
 function documentation_points_timer(){
-  var random = Math.floor((Math.random() * 100) + 1);
+  var random = Math.floor((Math.random() * 40) + 1);
 
   var documentation_percent = (documentation_slider_percent / 250) * 100;
 
@@ -1046,10 +1049,11 @@ function documentation_points_timer(){
   }
 
   clearInterval(documentation_timer);
-  var random = (Math.floor((Math.random() * 4) + 1))*500;
+  random = (Math.floor((Math.random() * 4) + 1))*500;
   documentation_timer = setInterval(documentation_points_timer, random);
 }
 
+//Calculate the assignment's score
 function calculate_score(){
   var difference;
   var total_points = design_points + coding_points + testing_points + documentation_points;

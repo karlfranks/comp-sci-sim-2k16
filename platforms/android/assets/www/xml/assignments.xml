@@ -5,7 +5,7 @@
     <assignment_num>1</assignment_num>
     <title>Concepts In Programming</title>
     <description>Welcome to university! Your first assignment won't be a cakewalk, but if</description>
-    <description>you've paid attentionin your lectures and practicals it shouldn't be too</description>
+    <description>you've paid attention in your lectures and practicals it shouldn't be too</description>
     <description>hard. You will create a basic text based game. You will need to produce</description>
     <description>UML designs for your program, test your program works and write a short</description>
     <description>evaluation justifying your design and evaluating your work.</description>
@@ -33,7 +33,7 @@
     <assignment_num>3</assignment_num>
     <title>The Software Development Life Cycle</title>
     <description>This is the second year group project. You will be put into groups of</description>
-    <description>roughly 10 people. Together you will develop a piece of software & website </description>
+    <description>roughly 10 people. Together you will develop a piece of software &amp; website </description>
     <description>which will communicate with a backend database of your design.</description>
     <description>You will likely be involved a variety of roles (e.g. testing, writing</description>
     <description>documentation, etc.) Therefore, take care balancing your attributes.</description>
